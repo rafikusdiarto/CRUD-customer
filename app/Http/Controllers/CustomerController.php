@@ -14,7 +14,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $data['title']= 'Customers';
+        $data['title']= 'Data Customers';
         $data['q']= $request->get('q');
         $data['customers']= Customer::where('customer_name','like','%'.$data['q'].'%')->get();
         return view('customer.index', $data);
