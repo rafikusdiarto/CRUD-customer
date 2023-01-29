@@ -1,6 +1,8 @@
 @extends('app')
 @section('content')
-  
+@if (session('success'))
+  <p class="alert alert-success mt-5">{{session('success')}}</p>
+@endif
   <body>
     <div class="col-3 mt-5">
       <form class="d-flex" role="search">
@@ -36,8 +38,12 @@
                             <td>{{$customer -> address}}</td>
                             <td>{{$customer -> city}}</td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-warning">Edit</button>
-                                <button type="button" class="btn btn-danger">Delete</button>
+                                <a href="{{ route('customer.edit', $customer) }}" class="btn btn-warning">Edit</a>
+                                <form method="POST" action="{{ route('customer.destroy', $customer)}}" onsubmit="return confirm('Apakah Anda Yakin Menghapus Data?')" style="display: inline">
+                                  @method('DELETE')
+                                  @csrf
+                                  <button class="btn btn-danger">Delete</button>
+                                </form>
                             </td>
                         </tr>
                         

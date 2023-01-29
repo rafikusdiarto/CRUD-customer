@@ -40,7 +40,15 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'customer_name' => 'required',
+            'phone_number' => 'required',
+            // 'address' => $request->address,
+            // 'city' => $request->city,
+        ]);
+        $customer = new Customer($request->all());
+        $customer-> save();
+        return redirect('customer')-> with('success', 'add customer successfully');
     }
 
     /**
@@ -62,7 +70,9 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        $data['title']= "Edit Data Customer";
+        $data['customer']= $customer;
+        return view('customer.edit', $data);
     }
 
     /**
@@ -74,7 +84,19 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $request->validate([
+            'customer_name' => 'required',
+            'phone_number' => 'required',
+            // 'address' => $request->address,
+            // 'city' => $request->city,
+        ]);
+        $customer->customer_name = $request->customer_name;
+        $customer->phone_number = $request->phone_number;
+        $customer->address = $request->address;
+        $customer->city = $request->city;
+        $customer-> save();
+        return redirect('customer')-> with('success', 'edit customer successfully');
+
     }
 
     /**
@@ -85,6 +107,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        return redirect('customer')-> with('success', 'delete customer successfully');
     }
 }
